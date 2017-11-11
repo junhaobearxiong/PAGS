@@ -43,7 +43,7 @@ class Sketches(ABC) :
         self.firstSketchSize = currentSize
         self.currentSize = 0
 
-    def gettotalSizeofSketches(self) :
+    def getTotalSizeofSketches(self) :
         return currentSize + firstSketchSize
 
     
