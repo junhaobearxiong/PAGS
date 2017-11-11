@@ -23,29 +23,32 @@ sketch = SimpleSketches(MAX_SIZE_1)
 # for testing purposes
 total_kmer_count = 0
 
+#TODO need to complete kmer that spans multiple line
+fileNumber = 0
 
-#TODO need to complete kmer that spans multiple lines 
-for i, line in enumerate(fi.input()):
-    # preprocessing the input
-    line.strip('\n')
-    if line[0] == '>':
-        continue
+for fl in fi.input() :
+    for i, line in enumerate(fl):
+        # preprocessing the input
+
+        line.strip('\n')
+        if line[0] == '>':
+            continue
     
-    for j in range(0, len(line) - k):
-        total_kmer_count += 1
+        for j in range(0, len(line) - k):
+            total_kmer_count += 1
 
-    # go through each starting position of kmer
-        r = random.random() # generate a pseudo random number in [0, 1)      
-        if (r <= sketch_percent): 
-        # if the random number is within the probablity of including a kmer
-        # we add it to our sketch
-            kmer = line[j:j+k]  # grab the kmer
-            sketch.addKmer(kmer)
+            # go through each starting position of kmer
+            r = random.random() # generate a pseudo random number in [0, 1)      
+            if (r <= sketch_percent):
+                # if the random number is within the probablity of
+                #including a kmer
+                # we add it to our sketch
+                kmer = line[j:j+k]  # grab the kmer
+                sketch.addKmer(kmer)
+    print(sketch.getSize())
+    #sketch.endFirstGenome(MAX_SIZE_2);
 
-
-sketch.endFirstGenome(MAX_SIZE_2)
-sketch.printSketches()
-print("Total kmer count is: {}".format(total_kmer_count))
-
+#sketch.printSketches()
+print("Total kmer in common is {}".format(sketch.getCommon()))
 
   

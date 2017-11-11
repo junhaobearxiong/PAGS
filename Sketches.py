@@ -19,13 +19,13 @@ class Sketches(ABC) :
         # first sequence, false indicates the second.
         super().__init__()
 
-    @abstractmethod
     ''' add kmer to the sketches '''
+    @abstractmethod
     def addKmer(self, kmer) :
         pass
 
-    @abstractmethod
     ''' print sketches '''
+    @abstractmethod
     def printSketches(self):
         pass
 
@@ -33,8 +33,13 @@ class Sketches(ABC) :
     def getCommon(self) :
         return self.common
 
-    def getSize() :
-        return self.size
+    def getSize(self) :
+        return self.currentSize
+
+    def endFirstGenome(self, newSize) :
+        self.firstPass = False
+        self.maxSize = newSize
+        self.currentSize = 0
 
     
 
