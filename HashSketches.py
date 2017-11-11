@@ -11,18 +11,18 @@ class HashSketches(Sketches):
             raise ValueError("SketchesSize exceeded limit")
        
         if (self.firstPass):    # processing the first sequence
-            self.kmerMap[hash(kmer)] = self.kmerMap.get(kmer, 0) + 1
+            self.kmerMap[hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
             self.currentSize += 1
         else:   # processing the second sequence
             # if we find a kmer that is already in the map while processing the
             # second sequence, it means that we find a common kmer between both
             # sketches. 
-            if kmer in self.kmerMap:
-                self.kmerMap[kmer] -= 1
-                if (self.kmerMap[kmer] == 0):
+            if hash(kmer) in self.kmerMap:
+                self.kmerMap[hash(kmer)] -= 1
+                if (self.kmerMap[hash(kmer)] == 0):
                 # if a kmer's occurence is down to zero, it means that it has
                 # occured in both sketches exactly the same amount of time
-                    self.kmerMap.pop(kmer)
+                    self.kmerMap.pop(hash(kmer))
                 self.common += 1
             self.currentSize += 1
         
