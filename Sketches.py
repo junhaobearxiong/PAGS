@@ -13,6 +13,7 @@ class Sketches(ABC) :
     def __init__(self, size) :
         self.maxSize = size # specify the maximum size of a sketch to prevent 
         # accuring too much space
+        self.firstSketchSize = 0
         self.currentSize = 0    # keep track of the growing size of a sketch
         self.common = 0 # the number of kmers that are shared by both sketches
         self.firstPass = True   # true indicates that we are processing the
@@ -33,13 +34,17 @@ class Sketches(ABC) :
     def getCommon(self) :
         return self.common
 
-    def getSize(self) :
+    def getSizeOfCurrentSketch(self) :
         return self.currentSize
 
     def endFirstGenome(self, newSize) :
         self.firstPass = False
         self.maxSize = newSize
+        self.firstSketchSize = currentSize
         self.currentSize = 0
+
+    def gettotalSizeofSketches(self) :
+        return currentSize + firstSketchSize
 
     
 
