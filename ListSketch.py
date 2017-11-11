@@ -1,8 +1,8 @@
-from Sketch import Sketch
+from Sketches import Sketches
 from random import random
 
 
-class MakeSketch(Sketch):
+class MakeSketches(Sketches):
     def __init__(self, size):
     	self.kmerMap = {}
         self.firstPass = True
@@ -14,13 +14,16 @@ class MakeSketch(Sketch):
     def endFirstGenome(self, newSize):
     	pass
 
+'''
+    Use ParseFasta.py to parse file and generate kmers.
     # generate bags of k-mers for both genomes
     def generate_kmers(genome, kmer_size):
-        kmers = []
+        kmers = 
         for i in range(len(genome) - kmer_size + 1):
             kmers.add(genome[i:i + kmer_size])
         return kmers
-    
+'''
+
     def get_minhash(k_mers, sketch_size, random_substrings):
         minhash_sketch = []
         minhash = sys.maxint # use collocation counters instead to return n number of lowest words

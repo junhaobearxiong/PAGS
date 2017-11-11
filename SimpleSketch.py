@@ -1,16 +1,19 @@
-from Sketch import Sketch
+from Sketches import Sketches
 
+'''
+    A simple implementation of Sketches
+    Store the kmer and the number of time it occurs in a dict
+''' 
 
-class SimpleSketch(Sketch) :
+class SimpleSketches(Sketches) :
 
     def __init__(self, size) :
         self.kmerMap = {}
-        self.firstPass = True
         super().__init__(size)
         
     def addKmer(self, kmer) :
         if (self.currentSize >= self.maxSize) :
-            raise ValueError("SketchSize exceeded limit")
+            raise ValueError("SketchesSize exceeded limit")
        
         if (self.firstPass) :
             # add one to the current value, starting from 0 if the key
@@ -25,12 +28,7 @@ class SimpleSketch(Sketch) :
                 self.common += 1
             self.currentSize += 1
 
-    def endFirstGenome(self, newSize) :
-        self.firstPass = False
-        self.maxSize = newSize
-        self.currentSize = 0
-
-    def printSketch(self):
+    def printSketches(self):
         count = 0 # the sum of values
         for key, value in self.kmerMap.items():
             count += value
