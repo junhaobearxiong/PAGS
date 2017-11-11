@@ -40,11 +40,11 @@ class Sketches(ABC) :
     def endFirstGenome(self, newSize) :
         self.firstPass = False
         self.maxSize = newSize
-        self.firstSketchSize = currentSize
+        self.firstSketchSize = self.currentSize
         self.currentSize = 0
 
     def getTotalSizeofSketches(self) :
-        return currentSize + firstSketchSize
+        return self.currentSize + self.firstSketchSize
 
     
 

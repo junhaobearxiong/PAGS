@@ -13,24 +13,23 @@ class SimpleSketches(Sketches) :
         
     def addKmer(self, kmer) :
         if (self.currentSize >= self.maxSize) :
-            raise ValueError("SketchesSize exceeded limit")
+            raise ValueError("Sketches Size exceeded limit")
        
         if (self.firstPass) :
             # add one to the current value, starting from 0 if the key
             # doesn't exist
             self.kmerMap[kmer] = self.kmerMap.get(kmer, 0) + 1
-            self.currentSize += 1
         else :
             if kmer in self.kmerMap :
+                # if the first genome has a kmer that occurs only once, while
+                # the second genome has one that occurs five times, we only 
+                # want to count them as common once. So subtract 1 here. 
                 self.kmerMap[kmer] -= 1
                 if (self.kmerMap[kmer] == 0) :
                     self.kmerMap.pop(kmer)
-                self.common += 1
-            self.currentSize += 1
+                self.common += 1    
+        self.currentSize += 1
 
     def printSketches(self):
-        count = 0 # the sum of values
         for key, value in self.kmerMap.items():
-            count += value
             print('{}: {}'.format(key, value))
-        print("The total count of kmers is: {}".format(count))
