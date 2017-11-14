@@ -7,9 +7,6 @@ from SimpleSketches import SimpleSketches
 from HashSketches import HashSketches
 from DistanceCalculation import calculateDistance
 
-''' Tests for different implementations '''
-sketch = HashSketches(MAX_SIZE_1)
-#sketch = SimpleSketches(MAX_SIZE_1)
 
 ''' Attributes '''
 kmer_length = 0 # length of a kmer
@@ -22,6 +19,9 @@ MAX_SIZE_2 = 999999999 #TODO: change to dynamic later
 # for testing purposes
 total_kmer_count = 0
 
+''' Tests for different implementations '''
+#sketch = HashSketches(MAX_SIZE_1)
+sketch = SimpleSketches(MAX_SIZE_1)
 
 ''' User Set Parameters '''
 kmer_length = int(input('Please specify the length of each k-mer: '))
