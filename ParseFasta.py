@@ -28,6 +28,9 @@ kmer_length = int(input('Please specify the length of each k-mer: '))
 sketch_percent = float(input('Please specify the percentage of the total number of '
     'k-mers you wish to include in the sketch: '))
 #TODO: exception handling
+if kmer_length > 80: # when the length of kmer exceeds the length of a line
+# reading input becomes hard
+    raise ValueError("Kmer length is too long")
 
 
 #TODO need to complete kmer that spans multiple line
@@ -36,7 +39,11 @@ sketch_percent = float(input('Please specify the percentage of the total number 
 for index, arg in enumerate(sys.argv[1:]):
     print("Currently processing file {}".format(arg))
     with open(arg) as fi:
+        temp = '' # used to store the part of the line that doesn't form kmer
+        # with the string of the current line
         for i, line in enumerate(fi):
+            line = temp + line # add the buffer string from the previous line
+            # to the beginning of the current line
             # preprocessing the input
             line.strip('\n')
             if line[0] == '>':
@@ -44,13 +51,14 @@ for index, arg in enumerate(sys.argv[1:]):
             # go through each starting position of kmer
             for j in range(0, len(line) - kmer_length):
                 total_kmer_count += 1
-                r = random.random() # generate a pseudo random number in [0, 1)      
+                r = random.random() # generate a pseudo random number in [0, 1)
                 if (r <= sketch_percent):
                     # if the random number is within the probablity of
                     # including a kmer
                     # we add it to our sketch
                     kmer = line[j:j+kmer_length]  # grab the kmer
                     sketch.addKmer(kmer)
+            temp = line[len(line) - kmer_length:]
     # finish processing the first genome
     if (index == 0):
         sketch.endFirstGenome(MAX_SIZE_2)
