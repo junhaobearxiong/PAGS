@@ -42,12 +42,13 @@ for index, arg in enumerate(sys.argv[1:]):
         temp = '' # used to store the part of the line that doesn't form kmer
         # with the string of the current line
         for i, line in enumerate(fi):
-            line = temp + line # add the buffer string from the previous line
-            # to the beginning of the current line
             # preprocessing the input
             line.strip('\n')
             if line[0] == '>':
                 continue
+
+            line = temp + line # add the buffer string from the previous line
+            # to the beginning of the current line
             # go through each starting position of kmer
             for j in range(0, len(line) - kmer_length):
                 total_kmer_count += 1
