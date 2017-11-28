@@ -70,4 +70,4 @@ for index, arg in enumerate(sys.argv[1:]):
 print("Total kmer count of both genomes are {}".format(total_kmer_count))
 print("Total # of kmer in common is {}".format(sketch.getCommon()))
 print("Total # of kmer in both sketches is {}".format(sketch.getTotalSizeofSketches()))
-print("Distance between the two is {}".format(calculateDistance(sketch, kmer_length)))  
+print("Distance between the two is {}".format(calculateDistance(sketch, kmer_length, sketch_percent)))
