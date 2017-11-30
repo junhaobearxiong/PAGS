@@ -1,4 +1,4 @@
-def get_subsequence(line, total_kmer_count, temp, spaced_length=1):
+def get_subsequence(line, total_kmer_count, temp, spaced_length=0):
     '''
     This helper function extrcts subsequences from fasta lines.
     Args:

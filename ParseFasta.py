@@ -25,6 +25,7 @@ sketch = SimpleSketches(MAX_SIZE_1)
 
 ''' User Set Parameters '''
 kmer_length = int(input('Please specify the length of each k-mer: '))
+spaced_length = int(input('Please specify the spaced length: '))
 sketch_percent = float(input('Please specify the percentage of the total number of '
     'k-mers you wish to include in the sketch: '))
 #TODO: exception handling
