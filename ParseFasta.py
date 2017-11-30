@@ -6,7 +6,7 @@ import sys
 from SimpleSketches import SimpleSketches
 from HashSketches import HashSketches
 from DistanceCalculation import calculateDistance
-
+from SubsequenceExtraction import get_subsequence
 
 ''' Attributes '''
 kmer_length = 0 # length of a kmer
@@ -50,6 +50,8 @@ for index, arg in enumerate(sys.argv[1:]):
             line = temp + line # add the buffer string from the previous line
             # to the beginning of the current line
             # go through each starting position of kmer
+            get_subsequence(line, total_kmer_count, temp, spaced_length=1)
+            '''
             for j in range(0, len(line) - kmer_length):
                 total_kmer_count += 1
                 r = random.random() # generate a pseudo random number in [0, 1)
@@ -60,6 +62,7 @@ for index, arg in enumerate(sys.argv[1:]):
                     kmer = line[j:j+kmer_length]  # grab the kmer
                     sketch.addKmer(kmer)
             temp = line[len(line) - kmer_length:]
+            '''
     # finish processing the first genome
     if (index == 0):
         sketch.endFirstGenome(MAX_SIZE_2)
