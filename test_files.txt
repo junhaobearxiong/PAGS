@@ -1,0 +1,5 @@
+Genomes/Archeoglobis_Profundis.fna
+Genomes/Archeoglobis_SCalidus.fna
+Genomes/Haloferax_larsenii.fna
+Genomes/Halopenitus_persicus.fna
+Genomes/Haloplanus_natans.fna
