@@ -33,3 +33,4 @@ class SimpleSketches(Sketches) :
     def printSketches(self):
         for key, value in self.kmerMap.items():
             print('{}: {}'.format(key, value))
+
