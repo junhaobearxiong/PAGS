@@ -15,6 +15,9 @@ class PAGS:
 		  # total number of kmers that one wishes to include in the sketch
 		  # thus skecth_percent is the same for both sketches
 		  # can interpret this as the probablity of including any particular kmer
+		self.take_subseq = 0	# 0 if we are taking substring as kmer, 1 if we are taking subsequence
+		self.spaced_length = 0 # spaced length for subsequence
+		
 		self.MAX_SIZE_1 = 9999999999 #TODO: change to dynamic later
 		self.MAX_SIZE_2 = 999999999 #TODO: change to dynamic later
 		# for testing purposes
@@ -28,19 +31,12 @@ class PAGS:
 		self.sketch = SimpleSketches(self.MAX_SIZE_1)
 
 	''' User Set Parameters '''
-	def set_param(self, k, p):
-		'''
-		self.kmer_length = int(input('Please specify the length of each k-mer: '))
-		self.sketch_percent = float(input('Please specify the percentage of the total number of '
-			'k-mers you wish to include in the sketch: '))
-		#TODO: exception handling
-		if self.kmer_length > 80: # when the length of kmer exceeds the length of a line
-		# reading input becomes hard
-			raise ValueError("Kmer length is too long")
-
-		'''
+	def set_param(self, k, p, ss, sl):
 		self.kmer_length = k
 		self.sketch_percent = p
+		self.take_subseq = ss
+		if ss == 1:
+			self.spaced_length = sl
 
 	# files is a list of two fasta files to compare
 	def compare_genomes(self, files):
@@ -61,20 +57,13 @@ class PAGS:
 
 					line = temp + line # add the buffer string from the previous line
 					# to the beginning of the current line
-					temp = self.get_subsequence(line, temp, spaced_length=1)
-					'''
-					# go through each starting position of kmer
-					for j in range(0, len(line) - self.kmer_length):
-						self.total_kmer_count += 1
-						r = random.random() # generate a pseudo random number in [0, 1)
-						if (r <= self.sketch_percent):
-							# if the random number is within the probablity of
-							# including a kmer
-							# we add it to our sketch
-							kmer = line[j:j+self.kmer_length]  # grab the kmer
-							self.sketch.addKmer(kmer)
-					temp = line[len(line) - self.kmer_length:]
-					'''
+					
+					# either get substring or subsequence as kmer
+					if (self.take_subseq == 0):
+						temp = self.get_substring(line)
+					else:
+						temp = self.get_subsequence(line)
+			
 			# finish processing the first genome
 			if (index == 0):
 				self.sketch.endFirstGenome(self.MAX_SIZE_2)
@@ -83,9 +72,35 @@ class PAGS:
 		dist = calculateDistance(self.sketch, self.kmer_length, self.sketch_percent)
 		return dist
 
-	def get_subsequence(self, line, temp, spaced_length=0):
+	def get_substring(self, line):
 		'''
-		This helper function extrcts subsequences from fasta lines.
+			Helper funcion to get all kmers from a line, randomly selected
+			to include them into our sketch
+			Args:
+				line(str): the line we need to parse
+				temp(str): the leftover line that we haven't parsed
+			Return:
+				temp(str): the part of line that we need to parse
+				we return it so we can cancatnate it to the beginning of next
+				line
+		'''
+		# go through each starting position of kmer
+		for j in range(0, len(line) - self.kmer_length):
+			self.total_kmer_count += 1
+			r = random.random() # generate a pseudo random number in [0, 1)
+			if (r <= self.sketch_percent):
+				# if the random number is within the probablity of
+				# including a kmer
+				# we add it to our sketch
+				kmer = line[j:j+self.kmer_length]  # grab the kmer
+				self.sketch.addKmer(kmer)
+		temp = line[len(line) - self.kmer_length:]
+		return temp
+
+
+	def get_subsequence(self, line):
+		'''
+		This helper function extracts subsequences from fasta lines.
 		Args:
 			line (str): the processed line from the input file.
 			total_kmer_count (int): keep track of total kmer count
@@ -96,7 +111,7 @@ class PAGS:
 		coverage string, the substring ranging from the first requested character in the subsequence 
 		to the last character, exceeds the length of the line, the function raises an error.
 		'''
-		chunk_length = self.kmer_length + (self.kmer_length - 1) * spaced_length
+		chunk_length = self.kmer_length + (self.kmer_length - 1) * self.spaced_length
 		if chunk_length > len(line):
 			raise ValueError("The subsequence length is too long")
 		for j in range(0, len(line) - chunk_length):
@@ -108,7 +123,7 @@ class PAGS:
 				# we add it to our sketch
 				chunk = line[j:j + chunk_length]
 				# attain the subsequence
-				subsequence = chunk[::spaced_length + 1] 
+				subsequence = chunk[::self.spaced_length + 1] 
 				self.sketch.addKmer(subsequence)
 		temp = line[len(line) - chunk_length:]
 		return temp
