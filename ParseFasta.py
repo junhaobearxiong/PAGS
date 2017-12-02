@@ -51,7 +51,7 @@ for index, arg in enumerate(sys.argv[1:]):
             line = temp + line # add the buffer string from the previous line
             # to the beginning of the current line
             # go through each starting position of kmer
-            get_subsequence(line, total_kmer_count, temp, spaced_length=1)
+            temp = get_subsequence(line, total_kmer_count, temp, spaced_length=1)
             '''
             for j in range(0, len(line) - kmer_length):
                 total_kmer_count += 1

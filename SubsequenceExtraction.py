@@ -26,3 +26,4 @@ def get_subsequence(line, total_kmer_count, temp, spaced_length=0):
                     subsequence = chunk[::spaced_length + 1] 
                     sketch.addKmer(subsequence)
             temp = line[len(line) - chunk_length:]
+    return temp
