@@ -15,8 +15,8 @@ Use the following command:
 python3 Benchmark.py file_list k p ss (sl)
 file_list: name of a text file containing a list of path to fasta files of genomes to be compared
 (The file list we use is test_files.txt. All the fasta files are in Genomes/)
-k: kmer length
-p: percent of total kmer to include in each sketch
+k: kmer length (a positive number)
+p: percent of total kmer to include in each sketch (a number between 0 and 1)
 ss: option to take substring or subsequence as kmer. 0 for substring, 1 for subsequence
 (sl): only provide if ss = 1. The length of space between each character taken
 for the subsequence
