@@ -9,6 +9,8 @@ of the abstract class Sketches.py
 - DistanceCalculation.py is the algorithm for calculating distance between two
 genomes. 
 - RunTest.py and Benchmark.py are used to run benchmarks.
+A detailed description of each file is documented in each file as well as the
+paper.
 
 Generate Test Results
 Use the following command:
@@ -21,5 +23,4 @@ ss: option to take substring or subsequence as kmer. 0 for substring, 1 for subs
 (sl): only provide if ss = 1. The length of space between each character taken
 for the subsequence
 
-The result will be written in the file "result.txt"
-
+The result will be written in the file "result.txt".
