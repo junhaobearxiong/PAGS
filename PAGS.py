@@ -12,22 +12,29 @@ class PAGS:
 		''' Attributes '''
 		self.kmer_length = 0 # length of a kmer
 		self.sketch_percent = 0 # size of the sketch is represents by the percentage of
-		  # total number of kmers that one wishes to include in the sketch
-		  # thus skecth_percent is the same for both sketches
-		  # can interpret this as the probablity of including any particular kmer
+		# total number of kmers that one wishes to include in the sketch
+		# thus skecth_percent is the same for both sketches
+		# can interpret this as the probablity of including any particular kmer
 		self.take_subseq = 0	# 0 if we are taking substring as kmer, 1 if we are taking subsequence
 		self.spaced_length = 0 # spaced length for subsequence
 		
-		self.MAX_SIZE_1 = 9999999999 #TODO: change to dynamic later
-		self.MAX_SIZE_2 = 999999999 #TODO: change to dynamic later
-		# for testing purposes
+		# The maximum size is set to a large value that won't be triggered
+		# even if we include every kmer of the genome into the sketch
+		# This is because we have not find an appropriate maximum size
+		# for the sketch.
+		# This will depend on the space constraint when implementing in a larger
+		# scale
+		self.MAX_SIZE_1 = 9999999999
+		self.MAX_SIZE_2 = 9999999999  
 		self.total_kmer_count = 0
 
 		# files to test
 		self.file_1 = ''
 		self.file_2 = ''
+		
 		''' Tests for different implementations '''
 		#self.sketch = HashSketches(self.MAX_SIZE_1)
+		#self.sketch = ListSketches(self.MAX_SIZE_1)
 		self.sketch = SimpleSketches(self.MAX_SIZE_1)
 
 	''' User Set Parameters '''
@@ -40,10 +47,14 @@ class PAGS:
 
 	# files is a list of two fasta files to compare
 	def compare_genomes(self, files):
-		#TODO need to complete kmer that spans multiple line
+		'''
+		Compare two genomes and created sketches.
+		Args:
+			files([str]): a list of two file names. Each file should be the
+			fasta file of the genome we wish to compare.
+		'''
 		# iterate over the command line arguments
 		# open each file and process
-		#for index, arg in enumerate(sys.argv[1:]):
 		for index, arg in enumerate(files):
 			print("Currently processing file {}".format(arg))
 			with open(arg) as fi:
@@ -69,20 +80,24 @@ class PAGS:
 				self.sketch.endFirstGenome(self.MAX_SIZE_2)
 
 	def get_distance(self):
+		'''
+		Distance calculation
+		Return (int) distance
+		'''
 		dist = calculateDistance(self.sketch, self.kmer_length, self.sketch_percent)
 		return dist
 
 	def get_substring(self, line):
 		'''
-			Helper funcion to get all kmers from a line, randomly selected
-			to include them into our sketch
-			Args:
-				line(str): the line we need to parse
-				temp(str): the leftover line that we haven't parsed
-			Return:
-				temp(str): the part of line that we need to parse
-				we return it so we can cancatnate it to the beginning of next
-				line
+		Helper funcion to get all kmers from a line, randomly selected
+		to include them into our sketch
+		Args:
+			line(str): the line we need to parse
+			temp(str): the leftover line that we haven't parsed
+		Return:
+			temp(str): the part of line that we need to parse
+			we return it so we can cancatnate it to the beginning of next
+			line
 		'''
 		# go through each starting position of kmer
 		for j in range(0, len(line) - self.kmer_length):
@@ -128,16 +143,12 @@ class PAGS:
 		temp = line[len(line) - chunk_length:]
 		return temp
 	
-	#sketch.printSketches()
 	def print_result(self):
+	'''
+	Print results when we test our implementation
+	'''
 		print("Total kmer count of both genomes are {}".format(self.total_kmer_count))
 		print("Total # of kmer in common is {}".format(self.sketch.getCommon()))
 		print("Total # of kmer in both sketches is {}".format(self.sketch.getTotalSizeofSketches()))
 		print("Distance between the two is {}".format(calculateDistance(self.sketch, self.kmer_length, self.sketch_percent)))
 
-''' Main 
-	pags = PAGS()
-	pags.set_param()
-	pags.compare_genomes()
-	pags.print_result()
-'''
