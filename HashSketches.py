@@ -5,10 +5,31 @@ import hashlib
 
 # multiple hash functions
 def convert_ascii(kmer):
-    output = ''.join(bin(ascii)[2:] for ascii in [ord(char) for char in kmer])
+    """
+    This function converts each character in the kmer into 
+    binary representation of ascii codes.
+
+    Args:
+        kmer (str): kmer string
+    Return:
+        answer (str): a string composed of binary number  
+    """
+    output = ''.join(bin(ascii_code)[2:] for ascii_code in [ord(character) for character in kmer])
     return output
 
 def binary_hash(kmer):
+    """
+    This function hashes kmer string into a unique integer value.
+    
+    Args:
+        kmer (str): kmer string
+    Return:
+        answer (int): integer hash value
+    The function first converts the string input into ascii codes in terms of
+    binary numbers. Then each binary value will be iterated and used to 
+    construct a new hash binary value, with which its first and second halves
+    will be XORed to get a integer hash value.
+    """
     answer = 0
     ascii_kmer = convert_ascii(kmer) + '1'
     ascii_kmer += '0'*(20 - (len(ascii_kmer) %20))
@@ -19,6 +40,20 @@ def binary_hash(kmer):
     return answer
 
 def invert_hash(kmer):
+    """
+    This function inversely hashes kmer into a binary encoded value withbinary calculation.
+
+    Args:
+        kmer (str): input string
+    Return:
+        binary_encoded (int): binary hash value
+    The function is derived from Thomas Peter's integer hashing algorithm. 
+    First, each kmer string will be converted to ascii numbers character by character
+    through our helper function. Then, it is re-casted to a binary representation
+    of integer value, upon which binary conversions are performed in 
+    reverse sequence of that in Thomas Peter's hashing algorithm. 
+    XOR is involved to gurantee each output to be unique.
+    """
     binary_encoded = convert_ascii(kmer)
     if 'L' in binary_encoded:
         binary_encoded = int(binary_encoded[:-1], 2)
@@ -37,7 +72,7 @@ def invert_hash(kmer):
     temp = binary_encoded ^ temp >> 14
     temp = binary_encoded ^ temp >> 14
     binary_encoded = binary_encoded ^ temp >> 14
-    # Invert with parameter 265
+    # Invert with parameter
     binary_encoded *= 15244667743933553977
     # Invert with parameter 24
     temp = binary_encoded ^ binary_encoded >> 24
