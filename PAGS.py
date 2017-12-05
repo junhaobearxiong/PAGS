@@ -33,7 +33,8 @@ class PAGS:
 		self.file_2 = ''
 		
 		''' Tests for different implementations '''
-		self.sketch = HashSketches(self.MAX_SIZE_1, 2)
+		self.sketch = HashSketches(self.MAX_SIZE_1, 0)
+                #do not use HashFunction 1.  Use 0,2, or 3
 		#self.sketch = SimpleSketches(self.MAX_SIZE_1)
 
 	''' User Set Parameters '''
@@ -106,7 +107,7 @@ class PAGS:
 				# including a kmer
 				# we add it to our sketch
 				kmer = line[j:j+self.kmer_length]  # grab the kmer
-				self.sketch.addKmer(kmer, 0)
+				self.sketch.addKmer(kmer)
 		temp = line[len(line) - self.kmer_length:]
 		return temp
 
