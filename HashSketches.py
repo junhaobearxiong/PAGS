@@ -92,20 +92,21 @@ def invert_hash(kmer):
 
 
 class HashSketches(Sketches):
-    def __init__ (self, size):
-        self.kmerMap = {}   # key: kmer, value: number of times it occurs 
-        # in the sketch
+    def __init__ (self, size, hashFunction = 0):
+        self.otherHash = hashFunction 
+        self.kmerMap = {}   # key: kmer, value: number of times it occurs
+                            #in the sketch
         super().__init__(size)
 
-    def addKmer(self, kmer, otherHash=0):
+    def addKmer(self, kmer):
         if (self.currentSize >= self.maxSize):
             raise ValueError("SketchesSize exceeded limit")
         if (self.firstPass):    # processing the first sequence
-            if otherHash == 0:  # Use Python built-in hash function
+            if self.otherHash == 0:  # Use Python built-in hash function
                 self.kmerMap[hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
-            elif otherHash == 1: # Use binary hash function
+            elif self.otherHash == 1: # Use binary hash function
                 self.kmerMap[binary_hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
-            elif otherHash == 2: # use sha256 hash function from sha256 function
+            elif self.otherHash == 2: # use sha256 hash function from sha256 function
                 hash_sha256 = hashlib.sha256()
                 collect_kmer = hash_sha256.update(kmer)
                 hash_value = hash_sha256.digest()
