@@ -1,10 +1,27 @@
 import sys
 from RunTest import run_test
+'''
+	Pairwise comparison between each pair of genomes as specified in a list of
+	FASTA files. Return the distance calculated to a file named "result.txt"
+'''
+
 
 ''' Parameters '''
 file_list = []
+arg_len = len(sys.argv) # length of the argument list
+if arg_len < 5:
+	print("Not enough command line arguments")
+	exit()
 k = int(sys.argv[2])
 p = float(sys.argv[3])
+ss = int(sys.argv[4])
+if ss == 1:
+	if arg_len < 6:
+		print("Need to provide space length for subsequence")
+		exit()
+	else:
+		sl = int(sys.argv[5])
+
 
 ''' Read file lists '''
 # arg is the file containing all the lists of files
@@ -21,7 +38,7 @@ with open ('result.txt', 'w') as f:
 			if (j <= i):
 				continue
 			duo = [x, y]
-			dist = run_test(k, p, duo)
+			dist = run_test(duo, k, p, ss, sl=0)
 			output = '{} {} {}'.format(x, y, dist)
 			print(output, file = f)
 		

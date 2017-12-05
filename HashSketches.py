@@ -85,6 +85,12 @@ def invert_hash(kmer):
     return binary_encoded
 
 
+'''
+	Similar implementation of Sketches as SimpleSketches
+	But uses hash function to store the kmers in the sketches
+'''
+
+
 class HashSketches(Sketches):
     def __init__ (self, size):
         self.kmerMap = {}   # key: kmer, value: number of times it occurs 

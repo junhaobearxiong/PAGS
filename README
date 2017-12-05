@@ -1,0 +1,26 @@
+Varun Radhakrishnan
+Ziang Song
+Junhao Xiong
+
+File Description
+- PAGS.py includes the class declaration and implementation of our software.
+- SimpleSketches.py, ListSketches.py, HashSketches.py are different implementations
+of the abstract class Sketches.py
+- DistanceCalculation.py is the algorithm for calculating distance between two
+genomes. 
+- RunTest.py and Benchmark.py are used to run benchmarks.
+A detailed description of each file is documented in each file as well as the
+paper.
+
+Generate Test Results
+Use the following command:
+python3 Benchmark.py file_list k p ss (sl)
+file_list: name of a text file containing a list of path to fasta files of genomes to be compared
+(The file list we use is test_files.txt. All the fasta files are in Genomes/)
+k: kmer length (a positive number)
+p: percent of total kmer to include in each sketch (a number between 0 and 1)
+ss: option to take substring or subsequence as kmer. 0 for substring, 1 for subsequence
+(sl): only provide if ss = 1. The length of space between each character taken
+for the subsequence
+
+The result will be written in the file "result.txt".

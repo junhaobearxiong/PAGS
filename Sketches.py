@@ -7,8 +7,6 @@ from abc import ABC, abstractmethod
     Storing the information of both sketches in one class is more space
     efficient than storing both sketches seperately. '''
 
-# I changed the name to Sketches to be clear that we are techinically
-# storing TWO sketches here instead of one
 class Sketches(ABC) :
     def __init__(self, size) :
         self.maxSize = size # specify the maximum size of a sketch to prevent 
@@ -37,6 +35,7 @@ class Sketches(ABC) :
     def getSizeOfCurrentSketch(self) :
         return self.currentSize
 
+	''' tell the sketch we are starting to read the second genome '''
     def endFirstGenome(self, newSize) :
         self.firstPass = False
         self.maxSize = newSize
