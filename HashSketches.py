@@ -84,6 +84,18 @@ def invert_hash(kmer):
     binary_encoded = ~(binary_encoded-(temp << 21))
     return binary_encoded
 
+def hash_function(kmer, which_hash):
+    if which_hash == 0:
+        return hash(kmer)
+    elif which_hash == 1:
+        return binary_hash(kmer)
+    elif which_hash == 2:
+        hash_sha256 = hashlib.sha256()
+        collect_kmer = hash_sha256.update(kmer.encode())
+        hash_value = hash_sha256.digest()
+        return hash_value
+    else:
+        return invert_hash(kmer)
 
 '''
 	Similar implementation of Sketches as SimpleSketches
@@ -102,6 +114,7 @@ class HashSketches(Sketches):
         if (self.currentSize >= self.maxSize):
             raise ValueError("SketchesSize exceeded limit")
         if (self.firstPass):    # processing the first sequence
+            '''
             if self.otherHash == 0:  # Use Python built-in hash function
                 self.kmerMap[hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
             elif self.otherHash == 1: # Use binary hash function
@@ -113,11 +126,21 @@ class HashSketches(Sketches):
                 self.kmerMap[hash_value] = self.kmerMap.get(hash(kmer), 0) + 1
             else:
                 self.kmerMap[invert_hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
+            '''
+            self.kmerMap[hash_function(kmer, self.otherHash)] = self.kmerMap.get(hash_function(kmer, self.otherHash), 0) + 1
             self.currentSize += 1
         else:   # processing the second sequence
             # if we find a kmer that is already in the map while processing the
             # second sequence, it means that we find a common kmer between both
-            # sketches. 
+            # sketches.
+            if hash_function(kmer, self.otherHash) in self.kmerMap:
+                self.kmerMap[hash_function(kmer, self.otherHash)] -= 1
+                if (self.kmerMap[hash_function(kmer, self.otherHash)] == 0):
+                # if a kmer's occurence is down to zero, it means that it has
+                # occured in both sketches exactly the same amount of time
+                    self.kmerMap.pop(hash_function(kmer, self.otherHash))
+                self.common += 1
+            '''
             if hash(kmer) in self.kmerMap:
                 self.kmerMap[hash(kmer)] -= 1
                 if (self.kmerMap[hash(kmer)] == 0):
@@ -125,6 +148,7 @@ class HashSketches(Sketches):
                 # occured in both sketches exactly the same amount of time
                     self.kmerMap.pop(hash(kmer))
                 self.common += 1
+            '''
             self.currentSize += 1
         
     def printSketches(self):
