@@ -33,9 +33,8 @@ class PAGS:
 		self.file_2 = ''
 		
 		''' Tests for different implementations '''
-		#self.sketch = HashSketches(self.MAX_SIZE_1)
-		#self.sketch = ListSketches(self.MAX_SIZE_1)
-		self.sketch = SimpleSketches(self.MAX_SIZE_1)
+		self.sketch = HashSketches(self.MAX_SIZE_1, 2)
+		#self.sketch = SimpleSketches(self.MAX_SIZE_1)
 
 	''' User Set Parameters '''
 	def set_param(self, k, p, ss, sl):
@@ -138,7 +137,7 @@ class PAGS:
 				chunk = line[j:j + chunk_length]
 				# attain the subsequence
 				subsequence = chunk[::self.spaced_length + 1] 
-				self.sketch.addKmer(subsequence, 0)
+				self.sketch.addKmer(subsequence)
 		temp = line[len(line) - chunk_length:]
 		return temp
 	

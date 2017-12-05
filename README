@@ -4,7 +4,7 @@ Junhao Xiong
 
 File Description
 - PAGS.py includes the class declaration and implementation of our software.
-- SimpleSketches.py, ListSketches.py, HashSketches.py are different implementations
+- SimpleSketches.py and HashSketches.py are different implementations
 of the abstract class Sketches.py
 - DistanceCalculation.py is the algorithm for calculating distance between two
 genomes. 
