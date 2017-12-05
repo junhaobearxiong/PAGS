@@ -68,6 +68,7 @@ class PAGS:
 
 					line = temp + line # add the buffer string from the previous line
 					# to the beginning of the current line
+
 					# either get substring or subsequence as kmer
 					if (self.take_subseq == 0):
 						temp = self.get_substring(line)
@@ -142,9 +143,9 @@ class PAGS:
 		return temp
 	
 	def print_result(self):
-	'''
-	Print results when we test our implementation
-	'''
+		'''
+		Print results when we test our implementation
+		'''
 		print("Total kmer count of both genomes are {}".format(self.total_kmer_count))
 		print("Total # of kmer in common is {}".format(self.sketch.getCommon()))
 		print("Total # of kmer in both sketches is {}".format(self.sketch.getTotalSizeofSketches()))

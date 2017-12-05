@@ -35,7 +35,7 @@ class Sketches(ABC) :
     def getSizeOfCurrentSketch(self) :
         return self.currentSize
 
-	''' tell the sketch we are starting to read the second genome '''
+    ''' tell the sketch we are starting to read the second genome '''
     def endFirstGenome(self, newSize) :
         self.firstPass = False
         self.maxSize = newSize
