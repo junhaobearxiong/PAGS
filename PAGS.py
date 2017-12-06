@@ -106,7 +106,7 @@ class PAGS:
 				# including a kmer
 				# we add it to our sketch
 				kmer = line[j:j+self.kmer_length]  # grab the kmer
-				self.sketch.addKmer(kmer, 0)
+				self.sketch.addKmer(kmer)
 		temp = line[len(line) - self.kmer_length:]
 		return temp
 

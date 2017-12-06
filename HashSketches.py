@@ -1,6 +1,9 @@
 from Sketches import Sketches
 import random
 import hashlib
+import pickle
+import numpy
+import os
 
 
 # multiple hash functions
@@ -17,7 +20,31 @@ def convert_ascii(kmer):
     output = ''.join(bin(ascii_code)[2:] for ascii_code in [ord(character) for character in kmer])
     return output
 
-def binary_hash(kmer):
+def get_primes(start_number, stop_number):
+    """
+    This function generates a list of prime numbers, and saves to a pickle file.
+    Args:
+        start_number (int): the lower bound for the list of prime numbers
+        stop_number (int): the upper bound for the list of prime numbers
+    Return:
+        Save the primes list as a pickle object.
+    """
+    d = {x: True for x in list(range(start_number, stop_number + 1))}
+    x = start_number
+    while x ** 2 <= stop_number:
+        if d[x]:
+            y = x ** 2
+            while y <= stop_number:
+                d[y] = False
+                y += x
+        x += 1
+    l = []
+    for x, y in d.items():
+        if y:
+            l.append(x)
+    return l
+
+def binary_hash(kmer, primes):
     """
     This function hashes kmer string into a unique integer value.
     
@@ -37,6 +64,8 @@ def binary_hash(kmer):
         char_string = ascii_kmer[20*i:20*(i+1)]
         char_string1, char_string2 = char_string[:10], char_string[10:]
         answer += int(char_string1, 2) ^ int(char_string2, 2)
+    random_prime = random.choice(primes)
+    answer *= random_prime
     return answer
 
 def invert_hash(kmer):
@@ -84,11 +113,11 @@ def invert_hash(kmer):
     binary_encoded = ~(binary_encoded-(temp << 21))
     return binary_encoded
 
-def hash_function(kmer, which_hash):
+def hash_function(kmer, which_hash, primes):
     if which_hash == 0:
         return hash(kmer)
     elif which_hash == 1:
-        return binary_hash(kmer)
+        return binary_hash(kmer, primes)
     elif which_hash == 2:
         hash_sha256 = hashlib.sha256()
         collect_kmer = hash_sha256.update(kmer.encode())
@@ -108,6 +137,7 @@ class HashSketches(Sketches):
         self.otherHash = hashFunction 
         self.kmerMap = {}   # key: kmer, value: number of times it occurs
                             #in the sketch
+        self.primes = get_primes(2, 50000)
         super().__init__(size)
 
     def addKmer(self, kmer):
@@ -127,18 +157,18 @@ class HashSketches(Sketches):
             else:
                 self.kmerMap[invert_hash(kmer)] = self.kmerMap.get(hash(kmer), 0) + 1
             '''
-            self.kmerMap[hash_function(kmer, self.otherHash)] = self.kmerMap.get(hash_function(kmer, self.otherHash), 0) + 1
+            self.kmerMap[hash_function(kmer, self.otherHash, self.primes)] = self.kmerMap.get(hash_function(kmer, self.otherHash, self.primes), 0) + 1
             self.currentSize += 1
         else:   # processing the second sequence
             # if we find a kmer that is already in the map while processing the
             # second sequence, it means that we find a common kmer between both
             # sketches.
-            if hash_function(kmer, self.otherHash) in self.kmerMap:
-                self.kmerMap[hash_function(kmer, self.otherHash)] -= 1
-                if (self.kmerMap[hash_function(kmer, self.otherHash)] == 0):
+            if hash_function(kmer, self.otherHash, self.primes) in self.kmerMap:
+                self.kmerMap[hash_function(kmer, self.otherHash, self.primes)] -= 1
+                if (self.kmerMap[hash_function(kmer, self.otherHash, self.primes)] == 0):
                 # if a kmer's occurence is down to zero, it means that it has
                 # occured in both sketches exactly the same amount of time
-                    self.kmerMap.pop(hash_function(kmer, self.otherHash))
+                    self.kmerMap.pop(hash_function(kmer, self.otherHash, self.primes))
                 self.common += 1
             '''
             if hash(kmer) in self.kmerMap:
