@@ -1,0 +1,10 @@
+Genomes/Archeoglobis_Profundis.fna Genomes/Archeoglobis_SCalidus.fna 0.3470347073071254
+Genomes/Archeoglobis_Profundis.fna Genomes/Haloferax_larsenii.fna 0.43933870138008374
+Genomes/Archeoglobis_Profundis.fna Genomes/Halopenitus_persicus.fna 0.5005185822571836
+Genomes/Archeoglobis_Profundis.fna Genomes/Haloplanus_natans.fna 0.4715203566841483
+Genomes/Archeoglobis_SCalidus.fna Genomes/Haloferax_larsenii.fna 0.4194214061949521
+Genomes/Archeoglobis_SCalidus.fna Genomes/Halopenitus_persicus.fna 0.4721869494893
+Genomes/Archeoglobis_SCalidus.fna Genomes/Haloplanus_natans.fna 0.4458035334725254
+Genomes/Haloferax_larsenii.fna Genomes/Halopenitus_persicus.fna 0.20618397716331213
+Genomes/Haloferax_larsenii.fna Genomes/Haloplanus_natans.fna 0.1870120683636159
+Genomes/Halopenitus_persicus.fna Genomes/Haloplanus_natans.fna 0.18290831157685122
