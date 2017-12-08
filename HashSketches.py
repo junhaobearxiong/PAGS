@@ -121,8 +121,10 @@ def hash_function(kmer, which_hash, primes):
         collect_kmer = hash_sha256.update(kmer.encode())
         hash_value = hash_sha256.digest()
         return hash_value
-    else:
+    elif which_hash == 3:
         return invert_hash(kmer)
+    else:
+        raise ValueError("Choose 0, 1, 2 and 3 for distinct hash functions")
 
 '''
 	Similar implementation of Sketches as SimpleSketches
