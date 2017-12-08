@@ -15,12 +15,35 @@ paper.
 Generate Test Results
 Use the following command:
 python3 Benchmark.py file_list k p ss (sl)
-file_list: name of a text file containing a list of path to fasta files of genomes to be compared
+
+file_list: name of a text file containing a list of path to fasta files of genomes
+           to be compared
 (The file list we use is test_files.txt. All the fasta files are in Genomes/)
+
 k: kmer length (a positive number)
+
 p: percent of total kmer to include in each sketch (a number between 0 and 1)
+
 ss: option to take substring or subsequence as kmer. 0 for substring, 1 for subsequence
+
 (sl): only provide if ss = 1. The length of space between each character taken
-for the subsequence
+      for the subsequence
 
 The result will be written in the file "result.txt".
+
+
+Everyone's Role
+
+Overall, everyone contributed equally to the project.  Specifically, Bear implemented the command line
+interface, benchmarking script, and input parsing aspects of the program.  For the benchmarking script,
+he helped encapsulate many of the classes and functions of the main program to create easy access
+and use for other external python scripts.  Furthermore, he created the file parsing functions that would
+retrieve all the kmers in a given genome.  Ziang helped implement many of the stretch goals like subsequences,
+collision free hashing, and bloom filters.  His subsequence implementation would allow for any equally spaced
+bitmask in addition to the k-mer substrings, and his implementation of collision free hashing functions
+allows hash sketch to test multiple hashing techniques.  Lastly, Varun created the initial implementations of
+the distance calculation, sketches, simple sketches, and hash sketches classes.  By creating the sketches
+abstract class, he created a fixed structure that all other implementations, like simple and hash sketches,
+would follow.  In order to create the distance calculation, he tried to derive a measure of the point mutation rate
+through random sampling, and he described the assumptions and derivations in detail in the paper.  Additionally,
+he ran many of the benchmarks and collected all the OrthoAniu scores for the genomes.       
