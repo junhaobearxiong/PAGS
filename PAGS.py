@@ -33,17 +33,18 @@ class PAGS:
 		self.file_2 = ''
 		
 		''' Tests for different implementations '''
-		self.sketch = HashSketches(self.MAX_SIZE_1, 0)
-                #do not use HashFunction 1.  Use 0,2, or 3
-		#self.sketch = SimpleSketches(self.MAX_SIZE_1)
+		self.sketch = None
 
 	''' User Set Parameters '''
-	def set_param(self, k, p, ss, sl):
-		self.kmer_length = k
-		self.sketch_percent = p
-		self.take_subseq = ss
-		if ss == 1:
-			self.spaced_length = sl
+	def set_param(self, sketchType, hashType, k, p, ss, sl):
+                self.sketch = SimpleSketches(self.MAX_SIZE_1);
+                if (sketchType == "hash") :
+                        self.sketch = HashSketches(self.MAX_SIZE_1, hashType);
+                self.kmer_length = k
+                self.sketch_percent = p
+                self.take_subseq = ss
+                if ss == 1:
+                        self.spaced_length = sl
 
 	# files is a list of two fasta files to compare
 	def compare_genomes(self, files):

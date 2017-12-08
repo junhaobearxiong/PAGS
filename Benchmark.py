@@ -9,18 +9,32 @@ from RunTest import run_test
 ''' Parameters '''
 file_list = []
 arg_len = len(sys.argv) # length of the argument list
-if arg_len < 5:
+if arg_len < 6:
 	print("Not enough command line arguments")
 	exit()
-k = int(sys.argv[2])
-p = float(sys.argv[3])
-ss = int(sys.argv[4])
+sketchType = sys.argv[2] #hash or simple sketch
+argumentSpacing = 0 #used to offset the command line arguments
+hashType = 0 #number from 0 - 3 to choose hashing type
+if (not(sketchType == 'simple' or sketchType == 'hash')) :
+        print("Not a valid SketchType: use simple or hash")
+        exit()
+
+if (sketchType == 'hash') :
+        argumentSpacing = 1
+        if arg_len < 7:
+                print("Need to provide hash type")
+                exit()
+        hashType = int(sys.argv[3])
+                        
+k = int(sys.argv[3 + argumentSpacing])
+p = float(sys.argv[4 + argumentSpacing])
+ss = int(sys.argv[5 + argumentSpacing])
 if ss == 1:
-	if arg_len < 6:
+	if arg_len < 7 + argumentSpacing :
 		print("Need to provide space length for subsequence")
 		exit()
 	else:
-		sl = int(sys.argv[5])
+		sl = int(sys.argv[5 + argumentSpacing])
 
 
 ''' Read file lists '''
@@ -38,7 +52,7 @@ with open ('result.txt', 'w') as f:
 			if (j <= i):
 				continue
 			duo = [x, y]
-			dist = run_test(duo, k, p, ss, sl=0)
+			dist = run_test(duo, sketchType, hashType, k, p, ss, sl=0)
 			output = '{} {} {}'.format(x, y, dist)
 			print(output, file = f)
 		

@@ -6,9 +6,9 @@ from PAGS import PAGS
 	Return the calculated distance between the two genomes
 '''
 
-def run_test(files, k, p, ss, sl):
+def run_test(files, sketchType, hashType, k, p, ss, sl):
 	pags = PAGS()
-	pags.set_param(k, p, ss, sl)
+	pags.set_param(sketchType, hashType, k, p, ss, sl)
 	pags.compare_genomes(files)
 	dist = pags.get_distance()
 	return dist
