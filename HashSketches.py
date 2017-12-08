@@ -1,9 +1,7 @@
 from Sketches import Sketches
 import random
 import hashlib
-import pickle
 import numpy
-import os
 
 
 # multiple hash functions
@@ -123,8 +121,10 @@ def hash_function(kmer, which_hash, primes):
         collect_kmer = hash_sha256.update(kmer.encode())
         hash_value = hash_sha256.digest()
         return hash_value
-    else:
+    elif which_hash == 3:
         return invert_hash(kmer)
+    else:
+        raise ValueError("Choose 0, 1, 2 and 3 for distinct hash functions")
 
 '''
 	Similar implementation of Sketches as SimpleSketches
@@ -133,7 +133,7 @@ def hash_function(kmer, which_hash, primes):
 
 
 class HashSketches(Sketches):
-    def __init__ (self, size, hashFunction = 1):
+    def __init__ (self, size, hashFunction = 0):
         self.otherHash = hashFunction 
         self.kmerMap = {}   # key: kmer, value: number of times it occurs
                             #in the sketch
