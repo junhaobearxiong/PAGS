@@ -28,7 +28,7 @@ sketch_type: only two possibilities
 	     use "simple" for simple sketch
 	     use "hash" for hash sketch
 
-hash_type: optional parameter only used with hash sketch
+hash_type: REQUIRED parameter only used with hash sketch
 	   use 0 for python built in hash
 	   use 1 for binary hash
 	   use 2 for sha256
