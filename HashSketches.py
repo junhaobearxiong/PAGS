@@ -133,7 +133,7 @@ def hash_function(kmer, which_hash, primes):
 
 
 class HashSketches(Sketches):
-    def __init__ (self, size, hashFunction = 0):
+    def __init__ (self, size, hashFunction = 1):
         self.otherHash = hashFunction 
         self.kmerMap = {}   # key: kmer, value: number of times it occurs
                             #in the sketch
